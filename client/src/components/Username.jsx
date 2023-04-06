@@ -2,8 +2,8 @@ import React from 'react'
 
 function Username() {
   return (
-    <div>
-     
+    <div>    
+      <h1>Username </h1>
     </div>
   )
 }
