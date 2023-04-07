@@ -1,1 +1,0 @@
-// we will convert the image into base64 

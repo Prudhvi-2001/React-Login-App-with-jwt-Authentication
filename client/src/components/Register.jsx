@@ -5,6 +5,8 @@ import style from '../styles/Username.module.css'
 import {Toaster} from 'react-hot-toast'
 import {useFormik} from 'formik'
 import {passwordValidate} from '../helper/Validate'
+import convertToBase64 from '../helper/convert'
+import registerValidate from '../helper/Validate'
 function Register() {
  const [file,setFile]=useState()
 
@@ -14,10 +16,11 @@ function Register() {
       username:'',
       password:'',
     },
-    validate:passwordValidate,
+    validate:registerValidate,
     validateOnBlur:false,
     validateOnChange:false,
     onSubmit : async(values)=>{
+      values =await Object.assign(values,{profile:file  || ''})
       console.log(values)
 
     }
@@ -25,7 +28,7 @@ function Register() {
   })
   // formik doesnot support file upload so we need to create this handler
   const onUpload= async(e)=>{
-    const base64=''
+    const base64=await convertToBase64(e.target.files[0]);
     setFile(base64)
 
 
@@ -44,14 +47,14 @@ function Register() {
         <form className='py-1' onSubmit={formik.handleSubmit}>
           <div className='profile flex justify-center py-4'>
             <label htmlFor='profile'>
-            <img src={avatar} className={style.profile_img} alt='avatar' />
+            <img src={file || avatar} className={style.profile_img} alt='avatar' />
             </label>
-            <input type='file' id='profile'/>
+            <input onChange={onUpload} type='file' id='profile'/>
           </div>
           <div className='textbox flex flex-col items-center gap-6'>
-            <input {...formik.getFieldProps('email')}type='text' placeholder='Email' className={style.textbox} required/>
-            <input {...formik.getFieldProps('username')}type='text' placeholder='Username' className={style.textbox} required/>
-            <input {...formik.getFieldProps('password')}type='text' placeholder='Password' className={style.textbox} required/>
+            <input {...formik.getFieldProps('email')}type='text' placeholder='Email' className={style.textbox} />
+            <input {...formik.getFieldProps('username')}type='text' placeholder='Username' className={style.textbox}/>
+            <input {...formik.getFieldProps('password')}type='text' placeholder='Password' className={style.textbox}/>
 
             <button type='submit' className={style.btn}>Register</button>
           </div>
