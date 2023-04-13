@@ -144,7 +144,7 @@ export async function getUser(req,res){
 
             /** remove password from user */
             // mongoose return unnecessary data with object so convert it into json
-            const { password, ...rest } = Object.assign({}, user.toJSON());
+            const { password, ...rest } = Object.assign({}, user.toJSON()); //rest operatoe is basically used to conver the parameters of the function into an array
 
             return res.status(201).send(rest);
         })
